@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+  <div class="bg-gray-200 h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded-lg shadow-md">
+      {/* Mode Selection */}
+      <div class="mb-4">
+        <select id="modeSelect" class="p-2 rounded-lg">
+          <option value="standard">Standard</option>
+          <option value="scientific">Scientific</option>
+          </select>
+      </div>
+
+      <div id="display" class="bg-gray-100 p-4 rounded-lg mb-4 text-right text-2xl">
+        0
+      </div>
+
+      <div class="grid grid-cols-4 gap-4">
+        <button class="col-span-3 bg-gray-300 hover:bg-gray-400 p-4 rounded-lg" onclick="clearDisplay()">C</button>
+        <button class="bg-orange-500 hover:bg-orange-600 text-white p-4 rounded-lg" onclick="appendOperator('/')">/</button>
+        <button class="bg-gray-300 hover:bg-gray-400 p-4 rounded-lg" onclick="appendToDisplay('7')">7</button>
+        <button class="bg-gray-300 hover:bg-gray-400 p-4 rounded-lg" onclick="appendToDisplay('8')">8</button>
+        <button class="bg-gray-300 hover:bg-gray-400 p-4 rounded-lg" onclick="appendToDisplay('9')">9</button>
+        <button class="bg-orange-500 hover:bg-orange-600 text-white p-4 rounded-lg" onclick="appendOperator('*')">x</button>
+        <button class="bg-gray-300 hover:bg-gray-400 p-4 rounded-lg" onclick="appendToDisplay('4')">4</button>
+        <button class="bg-gray-300 hover:bg-gray-400 p-4 rounded-lg" onclick="appendToDisplay('5')">5</button>
+        <button class="bg-gray-300 hover:bg-gray-400 p-4 rounded-lg" onclick="appendToDisplay('6')">6</button>
+        <button class="bg-orange-500 hover:bg-orange-600 text-white p-4 rounded-lg" onclick="appendOperator('-')">-</button>
+        <button class="bg-gray-300 hover:bg-gray-400 p-4 rounded-lg" onclick="appendToDisplay('1')">1</button>
+        <button class="bg-gray-300 hover:bg-gray-400 p-4 rounded-lg" onclick="appendToDisplay('2')">2</button>
+        <button class="bg-gray-300 hover:bg-gray-400 p-4 rounded-lg" onclick="appendToDisplay('3')">3</button>
+        <button class="bg-orange-500 hover:bg-orange-600 text-white p-4 rounded-lg" onclick="appendOperator('+')">+</button>
+        <button class="col-span-2 bg-gray-300 hover:bg-gray-400 p-4 rounded-lg" onclick="appendToDisplay('0')">0</button>
+        <button class="bg-gray-300 hover:bg-gray-400 p-4 rounded-lg" onclick="appendToDisplay('.')">.</button>
+        <button class="bg-blue-500 hover:bg-blue-600 text-white p-4 rounded-lg" onclick="calculate()">=</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let display = document.getElementById('display');
+    let currentInput = '';
+
+    function appendToDisplay(value) {
+      currentInput += value;
+      display.textContent = currentInput;
+    }
+
+    function appendOperator(operator) {
+      currentInput += operator;
+      display.textContent = currentInput;
+    }
+
+    function clearDisplay() {
+      currentInput = '';
+      display.textContent = '0';
+    }
+
+    function calculate() {
+      let mode = document.getElementById('modeSelect').value;
+      let result = '';
+
+      try {
+        switch (mode) {
+          case 'standard':
+            result = eval(currentInput); 
+            break;
+          case 'scientific':
+            // Add scientific mode calculation logic here (e.g., using Math functions)
+            result = eval(currentInput.replace("sin", "Math.sin").replace("cos", "Math.cos")); 
+            break;
+          // Add cases for other modes (metrics, stat, matrix) here
+          default:
+            result = 'Invalid Mode';
+        }
+
+        display.textContent = result;
+      } catch (error) {
+        display.textContent = 'Error';
+      }
+      currentInput = result.toString(); // Update currentInput for further calculations
+    }
+  </script>
+</body>
+</html>
